@@ -212,9 +212,7 @@ summary like `Crunched for 51s`. That word comes from a much smaller,
 hand-picked set — just **8** verbs, stored the same way (a contiguous
 `Baked … Worked` block):
 
-```
-Baked · Brewed · Churned · Cogitated · Cooked · Crunched · Sautéed · Worked
-```
+`Baked` 구워냄 · `Brewed` 우려냄 · `Churned` 휘저어냄 · `Cogitated` 곰곰이 궁리함 · `Cooked` 요리함 · `Crunched` 으드득 처리함 · `Sautéed` 살짝 볶아냄 · `Worked` 일함
 
 A nice bit of design: **187 playful verbs while it's thinking, but only 8 calm
 ones when it's done** — and 6 of the 8 are culinary (Baked/Brewed/Churned/
