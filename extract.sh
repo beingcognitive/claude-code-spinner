@@ -87,14 +87,18 @@ past() {
 # If a future version breaks the region anchors, that assertion fails loudly.
 TIPS_QA_ANCHOR='to cycle between default mode'
 tips() {
+  # IMPORTANT: keep FILE ORDER (no sort). Tips are assembled from consecutive
+  # fragments ("Hit " + keybinding + " to cycle…"); sorting scrambles them so
+  # the list looks broken from line 1. Order-preserving output keeps each tip's
+  # fragments adjacent. The raw output is still fragmentary by nature — see
+  # TIPS.md for the fully reconstructed, complete sentences.
   strings -n 6 "$BIN" \
     | awk '/New to Claude Code\? Run/{g=1} g{print} /^tipsHistory$/{if(g)exit}' \
     | grep -aE '[a-z].* [a-z]' \
     | grep -avE '^[a-z0-9]+([-_/:][a-z0-9]+)*$' \
     | grep -avE '^https?://|^/[a-z]|^suggestion$|^the Claude mobile app$' \
     | grep -avE '\\b|\[\^|fs/promises|\.claude/|\.json$|\.lock$' \
-    | grep -avE 'Cannot destructure|null or undefined|^Failed to |auto-update' \
-    | sort -u
+    | grep -avE 'Cannot destructure|null or undefined|^Failed to |auto-update'
 }
 
 # Verify the QA anchor is present; print a warning to stderr if not.
