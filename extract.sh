@@ -27,6 +27,11 @@
 # SIGPIPE to `strings`; we only care about the final `sort` exit status.
 set -eu
 
+# Force a byte-order (C) locale so `sort` is deterministic everywhere. Without
+# this, case-mixed lines (e.g. tips) sort differently under a UTF-8 shell vs a
+# bare launchd/cron environment, producing spurious "changes" every run.
+export LC_ALL=C
+
 MODE="present"
 PLAIN=0
 BIN=""
