@@ -4,9 +4,11 @@
 #
 # For every installed Claude Code version (or a binary you pass), this writes:
 #
-#   versions/<ver>/spinner.txt   present-tense spinner verbs
-#   versions/<ver>/past.txt      past-tense completion verbs
-#   versions/<ver>/tips.txt      startup "Tip:" lines
+#   versions/<ver>/spinner.txt    present-tense spinner verbs (clean array)
+#   versions/<ver>/past.txt       past-tense completion verbs (clean array)
+#   versions/<ver>/tips.raw.txt   RAW `grep '^Tip: '` output — messy by nature
+#                                 (tips are format strings, not a data array).
+#                                 The curated truth lives in ../../TIPS.md.
 #
 # Re-run it after upgrading Claude Code to capture a new version, then commit
 # the new versions/<ver>/ folder. Over time this becomes a history of how the
@@ -37,11 +39,12 @@ for v in "${VERSIONS[@]}"; do
   fi
   OUT="$HERE/versions/$v"
   mkdir -p "$OUT"
-  "$HERE/extract.sh" --present --plain "$BIN" 2>/dev/null > "$OUT/spinner.txt"
-  "$HERE/extract.sh" --past    --plain "$BIN" 2>/dev/null > "$OUT/past.txt"
-  "$HERE/extract.sh" --tips    --plain "$BIN" 2>/dev/null > "$OUT/tips.txt"
+  "$HERE/extract.sh" --present --plain "$BIN" 2>/dev/null     > "$OUT/spinner.txt"
+  "$HERE/extract.sh" --past    --plain "$BIN" 2>/dev/null     > "$OUT/past.txt"
+  # tips: capture stderr (the QA check result) to the console, data to file.
+  "$HERE/extract.sh" --tips    --plain "$BIN" 2> >(grep -a 'tips QA' >&2) > "$OUT/tips.raw.txt"
   printf "%-9s  spinner=%s  past=%s  tips=%s\n" "$v" \
     "$(grep -c . "$OUT/spinner.txt")" \
     "$(grep -c . "$OUT/past.txt")" \
-    "$(grep -c . "$OUT/tips.txt")"
+    "$(grep -c . "$OUT/tips.raw.txt")"
 done

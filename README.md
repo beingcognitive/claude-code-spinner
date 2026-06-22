@@ -17,7 +17,7 @@ alphabetically-sorted array of plain strings inside the compiled CLI binary.
 This repo also tracks two companion lists baked into the same binary:
 - **8 past-tense completion verbs** — the `Crunched for 51s` message you see *after*
   a task finishes ([bonus section](#bonus-the-completion-verbs-8-and-tips)).
-- the **startup tips** (`Tip: …`).
+- the **startup tips** — the rotating `Tip: …` hints ([TIPS.md](./TIPS.md)).
 
 And it keeps a **[per-version archive](#version-archive)** so you can watch the
 vocabulary evolve across releases.
@@ -243,44 +243,34 @@ served. (`Sautéed` truncates to `Saut` in `strings`, same multi-byte quirk as
 
 ### Startup tips
 
-The `Tip: …` hints shown when Claude Code launches are also embedded as plain
-strings:
+The hints Claude Code rotates through at launch are also in the binary:
 
 ```bash
 ./extract.sh --tips
 ```
 
-**Important caveat:** unlike the spinner verbs, tips are *not* a clean
-contiguous array. `strings | grep '^Tip: '` is best-effort and the raw output is
-messy for three reasons, which is why some lines look truncated:
+**This one has a story.** Unlike the spinner verbs, tips are *not* a clean data
+array, and the obvious approach is wrong:
 
-1. **Runtime templates** — values are spliced in at display time, so `strings`
-   only catches the first fragment. Reconstructed from the surrounding bytes:
-   - `Tip: You have access to {N} with {N}x more context`
-   - `Tip: The shorthand "{repo}" assumes github.com. For internal GitHub`
-     `Enterprise, use the full URL: git@your-github-host.com:…`
-   - `Tip: For more frequent updates, use the claude-code@latest cask:`
-     `brew uninstall --cask … && brew install --cask claude-code@latest`
-2. **Embedded newlines** — a tip split across lines breaks at the `\n`.
-3. **False positives** — `Tip: to disable all smart filtering and make ripgrep
-   behave a bit more like…` is **not a Claude Code tip at all** — it's the
-   bundled **ripgrep** man page (the bytes right after it are `.SH REGEX SYNTAX`
-   troff markup). It only matches because ripgrep ships inside the binary.
+- The `Tip: ` prefix you see on screen is **added by the renderer** — the stored
+  text is just `Hit shift+tab to cycle between…`. So `grep '^Tip: '` finds the
+  *wrong* set entirely (a few incidental, unrelated `Tip:` strings) and misses
+  every real tip. This repo shipped that bug first; a user caught it by noticing
+  a tip they could see (`Hit shift+tab to cycle…`) wasn't in the output.
+- The real tips are a contiguous text region (with a parallel array of
+  kebab-case slugs: `shift-tab`, `install-github-app`, `double-esc`, …). Some
+  are **assembled at runtime** from a keybinding/command spliced between
+  fragments, so they extract as leading-space pieces.
 
-The fully-static, genuine Claude Code tips extract cleanly:
+`extract.sh --tips` now slices that region and filters out slugs, config keys,
+URLs, and error strings. As a regression guard it **asserts the visible
+shift+tab tip is present** (`to cycle between default mode`) and fails loudly if
+a future version moves the region.
 
-```
-Tip: You can launch Claude Code with just `claude`
-Tip: You can configure model switch behavior in /config
-Tip: You can enable auto-connect to IDE in /config or with the --ide flag
-Tip: run /code-review ultra (no number) to review your current branch instead.
-Tip: run /code-review ultra <PR number> to fetch and review a specific GitHub PR instead.
-Tip: the package name is from package.json, which can differ from the folder name.
-```
-
-> The archived `versions/<ver>/tips.txt` keeps the **raw** `grep '^Tip: '` output
-> (warts and all) as a faithful record of what's in the binary — don't read it as
-> a curated list.
+👉 The cleaned, human-reconstructed list (including the assembled tips) lives in
+**[TIPS.md](./TIPS.md)**. The archived `versions/<ver>/tips.raw.txt` keeps the
+raw filtered extraction (~70 lines, fragments and all) as a faithful record —
+don't read it as a curated list.
 
 ---
 

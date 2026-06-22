@@ -1,0 +1,70 @@
+ and Claude sends a team. Each one digs deep so nothing gets missed.
+ enable push notifications in 
+ for a quick interactive tutorial
+ in usage credits 
+ or press 
+ runs any prompt on a recurring schedule. Great for monitoring deploys, babysitting PRs, or polling status.
+ to cycle between default mode, auto-accept edit mode, and plan mode
+ to get started
+ to paste images from your clipboard
+ to see them all in one place 
+ twice on an empty prompt when Claude is idle
+ twice to activate Plan Mode and plan with Claude Opus.
+ twice to enable.
+"fan out subagents"
+' command in PATH" to enable IDE integration
+Ask Claude to create a todo list when working on complex tasks to track progress and remain on track
+Build your AI product with Claude API. Run 
+Connect Claude to your IDE 
+Continue your session in Claude Code Desktop with 
+Control this session from 
+Corrupted terminal glyphs? Disable terminal GPU acceleration in settings or run /terminal-setup
+Did you know you can drag and drop image files into your terminal?
+Double-tap esc to rewind the code and/or conversation to a previous point in time
+Double-tap esc to rewind the conversation to a previous point in time
+Get pinged on your phone when long tasks finish 
+Hit Enter to queue up additional messages while Claude is working.
+Name your conversations with /rename to find them easily in /resume later
+New to Claude Code? Run 
+Open the Command Palette (Cmd+Shift+P) and run "Shell Command: Install '
+Paste images into Claude Code using control+v (not cmd+v!)
+Press Option+Enter to send a multi-line message
+Press Shift+Enter to send a multi-line message
+Run /install-github-app to tag @claude right from your Github issues and PRs
+Run /install-slack-app to use Claude in Slack
+Run /terminal-setup to enable Option+Enter for new lines
+Run /terminal-setup to enable Shift+Enter for new lines
+Run /terminal-setup to enable convenient terminal integration like Option + Enter for new line and more
+Run /terminal-setup to enable convenient terminal integration like Shift + Enter for new line and more
+Run Claude Code locally or remotely using the Claude desktop app: clau.de/desktop
+Run claude --continue or claude --resume to resume a conversation
+Run tasks in the cloud while you keep coding locally 
+Running multiple Claude sessions? Run 
+Running multiple Claude sessions? Use /color and /rename to tell them apart at a glance.
+Send messages to Claude while it works to steer Claude in real-time
+Set CLAUDE_CODE_USE_POWERSHELL_TOOL=1 to enable the PowerShell tool (preview)
+Set an objective with 
+Share Claude Code and earn 
+Start with small features or bug fixes, tell Claude to propose a plan, and verify its suggested edits
+Try setting environment variable COLORTERM=truecolor for richer colors
+Use --agent <agent_name> to directly start a conversation with a subagent
+Use /agents to optimize specific tasks. Eg. Software Architect, Code Writer, Code Reviewer
+Use /config to change your default permission mode (including Plan Mode)
+Use /feedback to help us improve!
+Use /memory to view and manage Claude memory
+Use /permissions to pre-approve and pre-deny bash, edit, and MCP tools
+Use /statusline to set up a custom status line that will display beneath the input box
+Use /theme to change the color theme
+Use /voice to enable push-to-talk dictation
+Use Claude Design to mock up screens before you build 
+Use Plan Mode to prepare for a complex request before making changes. Press 
+Use git worktrees to run multiple Claude sessions in parallel.
+Working on UI? Claude Code Desktop has live preview and inline images 
+Working on UI? See a live preview in Claude Code Desktop 
+Working with HTML/CSS? Install the frontend-design plugin:
+You have 
+You have free guest passes to share 
+You haven't used the 
+Your default model setting is Opus Plan Mode. Press 
+claude agents
+plugin suggestion: 

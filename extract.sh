@@ -74,9 +74,37 @@ past() {
     | sort -u
 }
 
-# Startup tips: every embedded string that begins with "Tip: ".
+# Startup tips. IMPORTANT: tips are NOT stored with a "Tip: " prefix — that's
+# added by the renderer. A naive `grep '^Tip: '` misses the real tips entirely
+# (it only catches a few incidental, unrelated "Tip:" strings). The genuine tips
+# live in a contiguous text array; we slice the region from the first tip to the
+# config-key block, then drop the obvious non-tips (telemetry slugs, config
+# keys, URLs, error messages). Some tips are assembled at runtime from a
+# keybinding + fragment, so leading-space fragments are kept (faithful but ugly)
+# — see TIPS.md for the curated, reconstructed list.
+#
+# QA anchor: the "shift+tab … cycle between default mode" tip MUST appear here.
+# If a future version breaks the region anchors, that assertion fails loudly.
+TIPS_QA_ANCHOR='to cycle between default mode'
 tips() {
-  strings -n 8 "$BIN" | grep -aE '^Tip: ' | sort -u
+  strings -n 6 "$BIN" \
+    | awk '/New to Claude Code\? Run/{g=1} g{print} /^tipsHistory$/{if(g)exit}' \
+    | grep -aE '[a-z].* [a-z]' \
+    | grep -avE '^[a-z0-9]+([-_/:][a-z0-9]+)*$' \
+    | grep -avE '^https?://|^/[a-z]|^suggestion$|^the Claude mobile app$' \
+    | grep -avE '\\b|\[\^|fs/promises|\.claude/|\.json$|\.lock$' \
+    | grep -avE 'Cannot destructure|null or undefined|^Failed to |auto-update' \
+    | sort -u
+}
+
+# Verify the QA anchor is present; print a warning to stderr if not.
+tips_check() {
+  if tips | grep -qF "$TIPS_QA_ANCHOR"; then
+    echo "# tips QA: OK (shift+tab tip present)" >&2
+  else
+    echo "# tips QA: FAILED — '$TIPS_QA_ANCHOR' not found; region anchors may have moved" >&2
+    return 1
+  fi
 }
 
 emit() {  # $1 = function name, $2 = header (only used when MODE=all)
@@ -89,8 +117,8 @@ echo "# Source binary: ${BIN}" >&2
 case "$MODE" in
   present) emit present ;;
   past)    emit past ;;
-  tips)    emit tips ;;
+  tips)    emit tips; tips_check || true ;;
   all)     emit present "Spinner verbs (present tense)"
            emit past    "Completion verbs (past tense)"
-           emit tips    "Startup tips" ;;
+           emit tips    "Startup tips"; tips_check || true ;;
 esac

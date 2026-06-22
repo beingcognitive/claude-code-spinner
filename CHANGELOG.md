@@ -9,11 +9,14 @@ verb (or a startup tip), the diff shows up here.
 
 ## Counts per version
 
-| Version  | Spinner (present) | Completion (past) | Tips |
-|----------|:-----------------:|:-----------------:|:----:|
-| 2.1.185  | 187               | 8                 | 11   |
-| 2.1.183  | 187               | 8                 | 11   |
-| 2.1.181  | 187               | 8                 | 11   |
+| Version  | Spinner (present) | Completion (past) | Tips (raw) |
+|----------|:-----------------:|:-----------------:|:----------:|
+| 2.1.185  | 187               | 8                 | 70         |
+| 2.1.183  | 187               | 8                 | 70         |
+| 2.1.181  | 187               | 8                 | 70         |
+
+Tips count is the raw filtered extraction (`tips.raw.txt`), which includes
+runtime-assembled fragments; see [TIPS.md](./TIPS.md) for the curated list.
 
 ## Changes
 
