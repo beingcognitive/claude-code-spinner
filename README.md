@@ -90,83 +90,39 @@ Here's the same 187 words grouped so the personality comes through.
 
 ### 🍳 Cooking & baking · 요리 · 베이킹 — "something's simmering"
 The largest theme. Claude as a kitchen. *(가장 큰 비중을 차지하는 테마. Claude는 거의 주방장 모드입니다.)*
-
-`Baking` · `Blanching` (parboil) · `Brewing` · `Bunning` · `Caramelizing` ·
-`Churning` · `Concocting` · `Cooking` · `Crystallizing` · `Drizzling` ·
-`Fermenting` · `Flambéing` · `Frosting` · `Garnishing` · `Infusing` ·
-`Julienning` (fine matchstick cut) · `Kneading` · `Leavening` · `Marinating` ·
-`Misting` · `Nebulizing` (atomize into mist) · `Percolating` · `Pollinating` ·
-`Proofing` (let dough rise) · `Sautéing` · `Seasoning` · `Simmering` ·
-`Smooshing` · `Stewing` · `Tempering` (e.g. chocolate) · `Whisking` ·
-`Zesting` (grate citrus peel)
+`Baking` 굽기 · `Blanching` 데치기 · `Brewing` 우려내기 · `Bunning` 빵으로 빚기 (조어) · `Caramelizing` 캐러멜화하기 · `Churning` 휘젓기 · `Concocting` 이것저것 조제하기 · `Cooking` 요리하기 · `Crystallizing` 결정화하기 · `Drizzling` 솔솔 뿌리기 · `Fermenting` 발효시키기 · `Flambéing` 플람베하기 (불 붙이기) · `Frosting` 아이싱 바르기 · `Garnishing` 고명 올리기 · `Infusing` 우려내기 · `Julienning` 채 썰기 · `Kneading` 반죽하기 · `Leavening` 부풀리기 (발효) · `Marinating` 양념에 재워두기 · `Misting` 분무하기 · `Nebulizing` 안개처럼 분무하기 · `Percolating` (드립처럼) 우러나기 · `Pollinating` 수분(꽃가루받이)하기 · `Proofing` (반죽) 1차 발효시키기 · `Sautéing` 소테 (살짝 볶기) · `Seasoning` 간 맞추기 · `Simmering` 뭉근히 끓이기 · `Smooshing` 짓이기기 · `Stewing` 푹 졸이기 · `Tempering` (초콜릿) 템퍼링하기 · `Whisking` 거품 내어 젓기 · `Zesting` 껍질 갈아내기
 
 ### 🧠 Thinking & reasoning · 생각 · 추론 — the literal "I'm processing"
-`Calculating` · `Cerebrating` (use the brain) · `Cogitating` (ponder deeply) ·
-`Computing` · `Considering` · `Contemplating` · `Deciphering` · `Deliberating` ·
-`Determining` · `Elucidating` (make clear) · `Inferring` · `Mulling` ·
-`Musing` · `Philosophising` · `Pondering` · `Pontificating` (pronounce
-dogmatically) · `Processing` · `Puzzling` · `Ruminating` (chew over) ·
-`Thinking` · `Working`
+`Calculating` 계산하기 · `Cerebrating` 머리 굴리기 · `Cogitating` 곰곰이 궁리하기 · `Computing` 연산하기 · `Considering` 숙고하기 · `Contemplating` 사색하기 · `Deciphering` 해독하기 · `Deliberating` 심사숙고하기 · `Determining` 결정짓기 · `Elucidating` 명료하게 밝히기 · `Inferring` 추론하기 · `Mulling` 곱씹어 생각하기 · `Musing` 사색에 잠기기 · `Philosophising` 철학적으로 따지기 · `Pondering` 깊이 숙고하기 · `Pontificating` 단정적으로 일장연설하기 · `Processing` 처리하기 · `Puzzling` 골똘히 풀기 · `Ruminating` 되새김질하듯 곱씹기 · `Thinking` 생각하기 · `Working` 일하기
 
 ### ✨ Magic & transformation · 마법 · 변형 — making creation feel mystical
-`Enchanting` · `Manifesting` · `Metamorphosing` (transform) ·
-`Prestidigitating` (sleight of hand) · `Transfiguring` · `Transmuting`
-(alchemy) · `Levitating` · `Quantumizing` (joke)
+`Enchanting` 마법 걸기 · `Manifesting` 실체로 불러내기 · `Metamorphosing` 탈바꿈하기 · `Prestidigitating` 손재주 마술 부리기 · `Transfiguring` 변모시키기 · `Transmuting` (연금술처럼) 변성시키기 · `Levitating` 공중부양하기 · `Quantumizing` 양자화하기 (농담)
 
 ### 💃 Dance & motion · 춤 · 움직임 — playful movement
-`Beboppin'` · `Boogieing` · `Frolicking` · `Gallivanting` (roam for fun) ·
-`Galloping` · `Grooving` · `Jitterbugging` (a swing dance) · `Moonwalking` ·
-`Moseying` (amble) · `Shimmying` · `Skedaddling` (scram) · `Sock-hopping`
-(1950s dance) · `Swooping` · `Twisting` · `Waddling` · `Zigzagging`
+`Beboppin'` 비밥(재즈) 추기 · `Boogieing` 부기 춤추기 · `Frolicking` 까불며 뛰놀기 · `Gallivanting` 쏘다니기 · `Galloping` 질주하기 · `Grooving` 흥에 겨워 놀기 · `Jitterbugging` 지터버그 추기 · `Moonwalking` 문워크하기 · `Moseying` 어슬렁거리기 · `Shimmying` 어깨 흔들며 추기 · `Skedaddling` 후다닥 내빼기 · `Sock-hopping` 양말 신고 추기 (50년대 댄스) · `Swooping` 휙 내리덮치기 · `Twisting` 비틀기 · `Waddling` 뒤뚱뒤뚱 걷기 · `Zigzagging` 지그재그로 가기
 
 ### 🌦️ Nature & physics · 자연 · 물리 — weather, cosmos, phase changes
-`Billowing` · `Cascading` · `Coalescing` (merge) · `Ebbing` (tide receding) ·
-`Evaporating` · `Gusting` · `Hyperspacing` · `Ionizing` · `Nucleating` ·
-`Orbiting` · `Osmosing` · `Photosynthesizing` · `Precipitating` ·
-`Sublimating` (solid → gas) · `Thundering` · `Undulating` (ripple) · `Warping` ·
-`Whirlpooling` · `Whirring`
+`Billowing` 뭉게뭉게 피어오르기 · `Cascading` 폭포처럼 쏟아지기 · `Coalescing` 하나로 응결되기 · `Ebbing` 썰물처럼 빠지기 · `Evaporating` 증발하기 · `Gusting` 돌풍처럼 불기 · `Hyperspacing` 초공간 도약하기 · `Ionizing` 이온화하기 · `Nucleating` 핵 생성하기 · `Orbiting` 궤도 돌기 · `Osmosing` 스며들 듯 익히기 · `Photosynthesizing` 광합성하기 · `Precipitating` 응결 / 촉발하기 · `Sublimating` 승화시키기 · `Thundering` 우르릉 천둥치기 · `Undulating` 물결치듯 일렁이기 · `Warping` 휘어 비틀기 · `Whirlpooling` 소용돌이 만들기 · `Whirring` 윙윙 돌아가기
 
 ### 🏗️ Building & making · 제작 · 작업 — the engineering register
-`Accomplishing` · `Actioning` · `Actualizing` · `Architecting` ·
-`Bootstrapping` · `Composing` · `Crafting` · `Creating` · `Crunching` ·
-`Forging` · `Forming` · `Generating` · `Hashing` · `Orchestrating` ·
-`Sketching` · `Spinning` · `Synthesizing` · `Tinkering` · `Wrangling`
+`Accomplishing` 완수하기 · `Actioning` 실행에 옮기기 · `Actualizing` 실현하기 · `Architecting` 설계하기 · `Bootstrapping` 자력으로 띄우기 (부트스트랩) · `Composing` 작곡 / 구성하기 · `Crafting` 정성껏 만들기 · `Creating` 창조하기 · `Crunching` (데이터를) 으드득 처리하기 · `Forging` 벼리기 · `Forming` 빚어내기 · `Generating` 생성하기 · `Hashing` 해시 처리하기 / 잘게 다지기 · `Orchestrating` 총괄 지휘하기 · `Sketching` 스케치하기 · `Spinning` 빙빙 돌리기 · `Synthesizing` 합성 / 종합하기 · `Tinkering` 만지작 손보기 · `Wrangling` 씨름하듯 다루기
 
 ### 🐣 Life & creatures · 생물 · 동물 — nests, growth, animal antics
-`Burrowing` · `Canoodling` (cuddle — cheeky) · `Cultivating` · `Germinating` ·
-`Hatching` · `Herding` · `Honking` · `Incubating` · `Nesting` · `Pouncing` ·
-`Roosting` · `Scampering` · `Scurrying` · `Slithering` · `Sprouting` ·
-`Symbioting`
+`Burrowing` 굴 파고들기 · `Canoodling` 시시덕거리기 · `Cultivating` 일구기 / 기르기 · `Germinating` 싹 틔우기 · `Hatching` 부화시키기 / 꾸미기 · `Herding` 몰아 모으기 · `Honking` 빵빵 울리기 · `Incubating` 품어 키우기 · `Nesting` 둥지 틀기 · `Pouncing` 와락 덮치기 · `Roosting` 홰에 앉기 · `Scampering` 종종걸음 치기 · `Scurrying` 부산히 내달리기 · `Slithering` 스르르 미끄러지기 · `Sprouting` 움 틔우기 · `Symbioting` 공생하기 (조어)
 
 ### 🤪 Nonsense & wordplay · 헛소리 · 말장난 — the real charm
 Mostly not in any dictionary; chosen for sheer fun. *(대부분 사전에 없는 단어들입니다. 순전히 재미로 고른 말들이죠.)*
-
-`Befuddling` · `Combobulating` / `Discombobulating` / `Recombobulating` (the
-real word and its made-up siblings) · `Dilly-dallying` (dawdle) ·
-`Fiddle-faddling` · `Flibbertigibbeting` (flighty chatter) · `Flummoxing`
-(bewilder) · `Hullaballooing` (uproar) · `Lollygagging` (loaf about) ·
-`Razzle-dazzling` / `Razzmatazzing` (flashy showmanship) · `Shenaniganing` ·
-`Tomfoolering` · `Topsy-turvying` (upside-down) · `Whatchamacalliting`
-(the-thingy-ing) · `Wibbling`
+`Befuddling` 어리둥절하게 만들기 · `Combobulating` 정신 차리게 만들기 (조어) · `Discombobulating` 헷갈리게 만들기 · `Recombobulating` 다시 정신 차리게 만들기 (조어) · `Dilly-dallying` 꾸물대기 · `Fiddle-faddling` 시시한 일로 뭉그적대기 · `Flibbertigibbeting` 촐랑대기 (조어) · `Flummoxing` 당혹스럽게 만들기 · `Hullaballooing` 소란 피우기 · `Lollygagging` 빈둥거리기 · `Razzle-dazzling` 현란하게 홀리기 · `Razzmatazzing` 요란하게 뽐내기 · `Shenaniganing` 장난질하기 · `Tomfoolering` 바보짓하기 · `Topsy-turvying` 뒤죽박죽 뒤집기 · `Whatchamacalliting` '거시기'하기 (조어) · `Wibbling` 흔들흔들하기 (조어)
 
 ### 🤖 Claude in-jokes · Claude 관련 농담
-- **`Clauding`** — "doing the Claude thing" (a pun on its own name)
-- **`Gitifying`** — git-flavored work
-- **`Vibing`** — the "vibe coding" meme
+- **`Clauding`** — “doing the Claude thing”, 자기 이름을 건 말장난
+- **`Gitifying`** — git-flavored work, git 작업하는 느낌
+- **`Vibing`** — the “vibe coding” meme, ‘바이브 코딩’ 밈
 
 ### …and the rest · 그 외
-A grab-bag that didn't neatly cluster: `Beaming` · `Bloviating` (speechify
-windily) · `Boondoggling` (busywork) · `Booping` · `Catapulting` ·
-`Channeling` / `Channelling` · `Choreographing` · `Determining` · `Doing` ·
-`Doodling` · `Effecting` · `Embellishing` · `Envisioning` · `Finagling`
-(wangle) · `Flowing` · `Fluttering` · `Gesticulating` · `Harmonizing` ·
-`Ideating` · `Imagining` · `Improvising` · `Meandering` · `Mustering` ·
-`Newspapering` · `Noodling` (improvise idly) · `Perambulating` (stroll) ·
-`Perusing` · `Propagating` · `Puttering` · `Reticulating` (the classic
-*SimCity* "reticulating splines" gag) · `Spelunking` (cave-explore) ·
-`Swirling` · `Unfurling` · `Unravelling` · `Wandering`
+A grab-bag that didn’t neatly cluster. *(딱히 안 묶이는 잡동사니.)*
+`Beaming` 환히 빛나기 / 전송하기 · `Bloviating` 일장연설하기 · `Boondoggling` 헛일에 매달리기 · `Booping` 콕 누르기 · `Catapulting` 투석기로 쏘아 올리기 · `Channeling` (영매처럼) 끌어내기 · `Channelling` 끌어내기 (영국식 철자) · `Choreographing` 안무 짜기 · `Determining` 결정짓기 · `Doing` 하기 · `Doodling` 끄적이기 · `Effecting` (변화를) 이루기 · `Embellishing` 꾸며 덧붙이기 · `Envisioning` 머릿속에 그려보기 · `Finagling` 잔꾀로 해내기 · `Flowing` 흐르기 · `Fluttering` 팔랑이기 · `Gesticulating` 손짓 발짓하기 · `Harmonizing` 조화시키기 · `Ideating` 아이디어 내기 · `Imagining` 상상하기 · `Improvising` 즉흥으로 해내기 · `Meandering` 굽이굽이 흐르기 · `Mustering` 끌어모으기 · `Newspapering` 신문지로 채우기 (조어) · `Noodling` 이리저리 굴려보기 · `Perambulating` 거닐기 · `Perusing` 정독하기 · `Propagating` 퍼뜨리기 · `Puttering` 만지작거리기 · `Reticulating` 그물망 짜기 (심시티 밈) · `Spelunking` 동굴 탐험하기 · `Swirling` 소용돌이치기 · `Unfurling` 펼쳐 내걸기 · `Unravelling` 술술 풀어내기 · `Wandering` 정처 없이 떠돌기
 
----
 
 ## The complete alphabetical list (187) · 전체 알파벳순 목록
 
