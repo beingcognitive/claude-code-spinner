@@ -86,7 +86,7 @@ A grab-bag that didn’t neatly cluster. *(딱히 안 묶이는 잡동사니.)*
 ## The complete alphabetical list (187) · 전체 알파벳순 목록
 
 <details>
-<summary>187개 전체 보기 — English + 한국어 뜻</summary>
+<summary><b>📖 클릭해서 187개 전체 보기</b> &nbsp;·&nbsp; English + 한국어 뜻 &nbsp;👇</summary>
 
 | # | Word | 뜻 | | # | Word | 뜻 |
 |--:|------|----|---|--:|------|----|
