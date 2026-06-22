@@ -283,6 +283,31 @@ annotated reference.
 
 ---
 
+## Make your own — change the spinner & tips
+
+You don't have to reverse-engineer anything to *change* these. Claude Code reads
+three settings from `~/.claude/settings.json`:
+
+```json
+{
+  "spinnerVerbs": { "mode": "append", "verbs": ["Vibing", "Yak-shaving", "Bikeshedding"] },
+  "spinnerTipsEnabled": true,
+  "spinnerTipsOverride": { "excludeDefault": false, "tips": ["Stretch — this one might take a while"] }
+}
+```
+
+- **`spinnerVerbs`** — `{ "mode": "append" | "replace", "verbs": [...] }`.
+  `append` adds yours to the built-in 187; `replace` shows **only** yours.
+- **`spinnerTipsEnabled`** — `true`/`false` to show or hide the `Tip: …` hints.
+- **`spinnerTipsOverride`** — `{ "excludeDefault": true, "tips": [...] }` swaps in
+  your own tips (`excludeDefault: true` drops the stock ones).
+
+So you can make the spinner say whatever you want — your verb shows up right
+after the `✻`. *(Schema taken verbatim from the settings strings in the
+v2.1.185 binary — the same place this whole repo comes from.)*
+
+---
+
 ## How to extract them yourself
 
 The words live as plain strings inside the Mach-O / native binary. Find your
