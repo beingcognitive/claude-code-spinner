@@ -74,46 +74,70 @@ past() {
     | sort -u
 }
 
-# Startup tips. IMPORTANT: tips are NOT stored with a "Tip: " prefix — that's
-# added by the renderer. A naive `grep '^Tip: '` misses the real tips entirely.
-# The genuine tips live in a contiguous text region (from the first tip to the
-# `tipsHistory` config key). Three things make a clean extraction hard, and this
-# function handles all three:
-#   1. No "Tip: " prefix          → slice the region by content anchors.
-#   2. Runtime-assembled tips      → keep FILE ORDER (sorting scrambles the
-#      ("Hit " + key + " to cycle…")  fragments and the list looks truncated).
-#   3. MIXED ENCODINGS             → most tips are single-byte ASCII, but a few
-#      (plugin-disuse, team-onboarding) are UTF-16LE, so an ASCII-only `strings`
-#      drops their tails. We decode BOTH and merge by byte offset.
-# Output is still fragmentary by nature (assembled tips span several lines) —
-# see TIPS.md for the fully reconstructed, complete sentences.
+# Startup tips. IMPORTANT: tips are NOT stored with a "Tip: " prefix (the
+# renderer adds it), so `grep '^Tip: '` misses them. The real tips live in a
+# contiguous text region (first tip → the `tipsHistory` config key) and are
+# RECONSTRUCTED into complete sentences here, handling four complications:
+#   1. No "Tip: " prefix     → slice the region by content anchors.
+#   2. Runtime assembly      → each tip = several fragments with a value spliced
+#      in ("Hit " + key + " to cycle…"). We walk the region in byte order and
+#      join fragments, treating a Capitalized fragment as a new tip boundary,
+#      slugs/garbage as separators, and dropping render markers.
+#   3. Mixed encodings       → some tips (plugin-disuse, team-onboarding) are
+#      UTF-16LE; we decode BOTH ASCII and UTF-16 and merge by byte offset.
+#   4. Em-dash clauses       → a clause after a non-printable em-dash starts on
+#      its own; we fold lowercase/quote-leading lines back onto the previous tip.
+# Result: one complete sentence per line. A few tips with purely dynamic values
+# (a credit amount, an editor binary) show a small gap where that value would be.
+# See TIPS.md for the grouped, annotated reference.
 #
-# QA anchor: the "shift+tab … cycle between default mode" tip MUST appear here.
-# Two anchors guard the two extraction paths:
-#   ASCII  — the visible shift+tab tip
-#   UTF-16 — a plugin-disuse tip (proves the 16-bit decode still works)
-TIPS_QA_ANCHOR='to cycle between default mode'
-TIPS_QA_ANCHOR_UTF16='startup and context cost'
+# Two QA anchors guard the two decode paths (asserted by tips_check):
+TIPS_QA_ANCHOR='to cycle between default mode'        # ASCII  (shift+tab tip)
+TIPS_QA_ANCHOR_UTF16='startup and context cost'       # UTF-16 (plugin-disuse tip)
 tips() {
-  # Dual-encoding, offset-ordered extraction of the tips region.
   perl -0777 -e '
-    open(my $fh, "<:raw", $ARGV[0]) or die; local $/; my $data = <$fh>;
-    my $start = index($data, "New to Claude Code? Run", 190_000_000);
-    exit 0 if $start < 0;
-    my $end = index($data, "tipsHistory", $start); $end = length($data) if $end < 0;
-    my $r = substr($data, $start, $end - $start);
-    my @hits;
-    while ($r =~ /([\x20-\x7e]{6,})/g)            { push @hits, [pos($r)-length($1), $1]; }       # ASCII
-    while ($r =~ /((?:[\x20-\x7e]\x00){6,})/g)    { my $s=$1; (my $t=$s)=~s/\x00//g;
-                                                    push @hits, [pos($r)-length($s), $t]; }        # UTF-16LE
-    @hits = sort { $a->[0] <=> $b->[0] } @hits;
-    print "$_->[1]\n" for @hits;
-  ' "$BIN" \
-    | grep -aE '[a-z].* [a-z]' \
-    | grep -avE '^[a-z0-9]+([-_/:][a-z0-9]+)*$' \
-    | grep -avE '^https?://|^/[a-z]|^suggestion$|^the Claude mobile app$' \
-    | grep -avE '\\b|\[\^|fs/promises|\.claude/|\.json$|\.lock$' \
-    | grep -avE 'Cannot destructure|null or undefined|^Failed to |auto-update'
+    open(my $fh, "<:raw", $ARGV[0]) or die; local $/; my $d = <$fh>;
+    my $s = index($d, "New to Claude Code? Run", 190000000); exit 0 if $s < 0;
+    my $e = index($d, "tipsHistory", $s); $e = length($d) if $e < 0;
+    my $r = substr($d, $s, $e - $s);
+    my @tok;
+    while ($r =~ /([\x20-\x7e]{2,})/g)         { push @tok, [pos($r)-length($1), $1]; }       # ASCII
+    while ($r =~ /((?:[\x20-\x7e]\x00){2,})/g) { my $x=$1; (my $t=$x)=~s/\x00//g;
+                                                 push @tok, [pos($r)-length($x), $t]; }        # UTF-16LE
+    @tok = sort { $a->[0] <=> $b->[0] } @tok;
+    sub cls {                                          # classify a token
+      my $t = shift;
+      return "m" if $t =~ /^(suggestion|chat:cycleMode|chat:imagePaste|Chat)$/; # render marker
+      return "v" if $t =~ m{^\s*/[a-z][\w-]*\s*$};                              # slash command
+      return "v" if $t =~ /^[a-z]{2,8}\+[a-z]{1,8}$/;                           # keybinding
+      return "v" if $t =~ m{(clau\.de|claude\.(ai|com)|https?://)};            # url
+      return "C" if $t =~ /^\s*[A-Z]/ && $t =~ /[a-z]/ && $t =~ /\s/;          # new-sentence start
+      return "t" if $t =~ /[a-z]/ && ($t =~ /\s/ || $t =~ /^[\s\x27"]/);       # continuation fragment
+      return "s";                                                              # separator (slug/garbage)
+    }
+    my (@buf, @out);
+    sub fl { return unless @buf; my $l = join("", @buf);
+             $l =~ s/\s+/ /g; $l =~ s/^\s+|\s+$//g; push @out, $l if length($l) >= 12; @buf=(); }
+    for my $k (@tok) { my $c = cls($k->[1]);
+      next            if $c eq "m";
+      if    ($c eq "s") { fl(); }
+      elsif ($c eq "C") { fl(); push @buf, $k->[1]; }
+      else              { push @buf, $k->[1]; }
+    }
+    fl();
+    my @mg;                                            # fold em-dash continuation clauses
+    for my $l (@out) {
+      if    (@mg && $l =~ /^[a-z]/)     { $mg[-1] .= " \x{2014} " . $l; }
+      elsif (@mg && $l =~ /^[\x27"]/)   { $mg[-1] .= " " . $l; }
+      else                              { push @mg, $l; }
+    }
+    @mg = grep { !/\\b|\[\^|\*\*\//
+              && !/Cannot destructure|null or undefined|Failed to check|can\x27t auto-update/
+              && !/^(off|on|warn|closed|text|low|high|dark|startup|upsell|plugin suggestion)/ } @mg;
+    my %seen; @mg = grep { !$seen{$_}++ } @mg;          # dedup (binary stores some twice)
+    binmode STDOUT, ":utf8";
+    print "$_\n" for @mg;
+  ' "$BIN"
 }
 
 # Verify both QA anchors are present; warn to stderr (and fail) if not.

@@ -265,16 +265,18 @@ array, and the obvious approach is wrong:
   (plugin-disuse, team-onboarding) are **UTF-16LE**, so an ASCII-only `strings`
   silently dropped their tails.
 
-`extract.sh --tips` slices that region, decodes **both ASCII and UTF-16LE merged
-by byte offset**, and filters out slugs, config keys, URLs, and error strings.
-As regression guards it **asserts two tips are present** — the visible shift+tab
-tip (ASCII) and a plugin-disuse tip (UTF-16) — and fails loudly if a future
-version moves the region or breaks the 16-bit decode.
+`extract.sh --tips` slices that region, decodes **both ASCII and UTF-16LE**,
+walks the bytes in order, and **reconstructs each tip into one complete
+sentence** — joining fragments, splicing in the runtime value (slash command,
+keybinding, URL), and folding em-dash clauses. As regression guards it **asserts
+two tips are present** — the visible shift+tab tip (ASCII) and a plugin-disuse
+tip (UTF-16) — and fails loudly if a future version moves the region or breaks
+the 16-bit decode.
 
-👉 The cleaned, human-reconstructed list (including the assembled tips) lives in
-**[TIPS.md](./TIPS.md)**. The archived `versions/<ver>/tips.raw.txt` keeps the
-raw order-preserving extraction (~82 lines, ASCII + UTF-16, fragments and all)
-as a faithful record — don't read it as a curated list.
+👉 The archived `versions/<ver>/tips.txt` is this reconstructed list — **64
+complete sentences** (a few tips show a small gap where a purely dynamic value,
+like a credit amount, would be). **[TIPS.md](./TIPS.md)** is the grouped,
+annotated reference.
 
 ---
 

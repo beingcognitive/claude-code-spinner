@@ -9,15 +9,15 @@ verb (or a startup tip), the diff shows up here.
 
 ## Counts per version
 
-| Version  | Spinner (present) | Completion (past) | Tips (raw) |
-|----------|:-----------------:|:-----------------:|:----------:|
-| 2.1.185  | 187               | 8                 | 82         |
-| 2.1.183  | 187               | 8                 | 82         |
-| 2.1.181  | 187               | 8                 | 82         |
+| Version  | Spinner (present) | Completion (past) | Tips |
+|----------|:-----------------:|:-----------------:|:----:|
+| 2.1.185  | 187               | 8                 | 64   |
+| 2.1.183  | 187               | 8                 | 64   |
+| 2.1.181  | 187               | 8                 | 64   |
 
-Tips count is the raw, order-preserving extraction (`tips.raw.txt`, ASCII +
-UTF-16LE), which still includes runtime-assembled fragments; see
-[TIPS.md](./TIPS.md) for the complete, reconstructed sentences.
+Tips count is the reconstructed `tips.txt` — one complete sentence per tip
+(ASCII + UTF-16, fragments joined); see [TIPS.md](./TIPS.md) for the grouped,
+annotated reference.
 
 ## Changes
 
