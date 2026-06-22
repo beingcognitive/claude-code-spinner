@@ -34,46 +34,6 @@ vocabulary evolve across releases.
 
 ---
 
-## How to extract them yourself
-
-The words live as plain strings inside the Mach-O / native binary. Find your
-install, `strings` it, and slice out the block that runs from `Accomplishing` to
-`Zigzagging`:
-
-```bash
-# Auto-detect the newest installed version and print a numbered list
-./extract.sh
-
-# pick a list:  --present (default) | --past | --tips | --all
-./extract.sh --all
-
-# one word per line, no numbers (for diffing / scripting)
-./extract.sh --past --plain
-
-# …or point it at a specific binary
-./extract.sh ~/.local/share/claude/versions/2.1.185
-```
-
-The one-liner at the heart of the script:
-
-```bash
-BIN=~/.local/share/claude/versions/2.1.185      # your install path
-
-strings -n 4 "$BIN" \
-  | awk '/^Accomplishing$/{g=1} g{print} /^Zigzagging$/{if(g)exit}' \
-  | sed 's/^Flamb$/Flambéing/; s/^Saut$/Sautéing/' \
-  | sort -u \
-  | nl -w3 -s'. '
-```
-
-Notes:
-- The binary stores **two copies** of the array — `sort -u` collapses them.
-- `strings` truncates multi-byte accented characters, so `Flambéing` and
-  `Sautéing` show up as `Flamb` / `Saut`. The `sed` step restores them.
-- Find your install path with `readlink -f "$(which claude)"`.
-
----
-
 ## The verbs, by theme · 테마별 동사 목록
 
 The single best part of this list is how it's built — a deliberate blend of
@@ -122,7 +82,6 @@ Mostly not in any dictionary; chosen for sheer fun. *(대부분 사전에 없는
 ### …and the rest · 그 외
 A grab-bag that didn’t neatly cluster. *(딱히 안 묶이는 잡동사니.)*
 `Beaming` 환히 빛나기 / 전송하기 · `Bloviating` 일장연설하기 · `Boondoggling` 헛일에 매달리기 · `Booping` 콕 누르기 · `Catapulting` 투석기로 쏘아 올리기 · `Channeling` (영매처럼) 끌어내기 · `Channelling` 끌어내기 (영국식 철자) · `Choreographing` 안무 짜기 · `Determining` 결정짓기 · `Doing` 하기 · `Doodling` 끄적이기 · `Effecting` (변화를) 이루기 · `Embellishing` 꾸며 덧붙이기 · `Envisioning` 머릿속에 그려보기 · `Finagling` 잔꾀로 해내기 · `Flowing` 흐르기 · `Fluttering` 팔랑이기 · `Gesticulating` 손짓 발짓하기 · `Harmonizing` 조화시키기 · `Ideating` 아이디어 내기 · `Imagining` 상상하기 · `Improvising` 즉흥으로 해내기 · `Meandering` 굽이굽이 흐르기 · `Mustering` 끌어모으기 · `Newspapering` 신문지로 채우기 (조어) · `Noodling` 이리저리 굴려보기 · `Perambulating` 거닐기 · `Perusing` 정독하기 · `Propagating` 퍼뜨리기 · `Puttering` 만지작거리기 · `Reticulating` 그물망 짜기 (심시티 밈) · `Spelunking` 동굴 탐험하기 · `Swirling` 소용돌이치기 · `Unfurling` 펼쳐 내걸기 · `Unravelling` 술술 풀어내기 · `Wandering` 정처 없이 떠돌기
-
 
 ## The complete alphabetical list (187) · 전체 알파벳순 목록
 
@@ -257,11 +216,25 @@ served. (`Sautéed` truncates to `Saut` in `strings`, same multi-byte quirk as
 
 ### Startup tips
 
-The hints Claude Code rotates through at launch are also in the binary:
+The hints Claude Code rotates through at launch are baked into the binary too.
+Here's a taste — the first of **8 groups**. All **64 tips**, grouped and boxed,
+live in **[TIPS.md](./TIPS.md)**:
 
-```bash
-./extract.sh --tips
-```
+> [!TIP]
+> **Getting started & workflow**
+>
+> 1. New to Claude Code? Run `/powerup` for a quick interactive tutorial
+> 2. Start with small features or bug fixes, tell Claude to propose a plan, and verify its suggested edits
+> 3. Ask Claude to create a todo list when working on complex tasks to track progress and remain on track
+> 4. Hit Enter to queue up additional messages while Claude is working.
+> 5. Send messages to Claude while it works to steer Claude in real-time
+> 6. Run `claude --continue` or `claude --resume` to resume a conversation
+> 7. Name your conversations with `/rename` to find them easily in `/resume` later
+> 8. Use git worktrees to run multiple Claude sessions in parallel.
+> 9. Running multiple Claude sessions? Use `/color` and `/rename` to tell them apart at a glance.
+> 10. Running multiple Claude sessions? Run `claude agents` to see them all in one place, or press `shift+tab` twice on an empty prompt when Claude is idle
+
+Pull them from your own install with `./extract.sh --tips`.
 
 **This one has a story.** Unlike the spinner verbs, tips are *not* a clean data
 array, and the obvious approach is wrong:
@@ -321,6 +294,48 @@ diff versions/2.1.185/spinner.txt \
 
 Then add a row + a diff note to `CHANGELOG.md` and commit the new
 `versions/<new>/` folder. PRs with fresh versions are welcome.
+
+---
+
+## How to extract them yourself
+
+The words live as plain strings inside the Mach-O / native binary. Find your
+install, `strings` it, and slice out the block that runs from `Accomplishing` to
+`Zigzagging`:
+
+```bash
+# Auto-detect the newest installed version and print a numbered list
+./extract.sh
+
+# pick a list:  --present (default) | --past | --tips | --all
+./extract.sh --all
+
+# one word per line, no numbers (for diffing / scripting)
+./extract.sh --past --plain
+
+# …or point it at a specific binary
+./extract.sh ~/.local/share/claude/versions/2.1.185
+```
+
+The one-liner at the heart of the script:
+
+```bash
+BIN=~/.local/share/claude/versions/2.1.185      # your install path
+
+strings -n 4 "$BIN" \
+  | awk '/^Accomplishing$/{g=1} g{print} /^Zigzagging$/{if(g)exit}' \
+  | sed 's/^Flamb$/Flambéing/; s/^Saut$/Sautéing/' \
+  | sort -u \
+  | nl -w3 -s'. '
+```
+
+Notes:
+- The binary stores **two copies** of the array — `sort -u` collapses them.
+- `strings` truncates multi-byte accented characters, so `Flambéing` and
+  `Sautéing` show up as `Flamb` / `Saut`. The `sed` step restores them.
+- Find your install path with `readlink -f "$(which claude)"`.
+
+---
 
 ---
 
