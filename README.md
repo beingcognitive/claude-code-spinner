@@ -261,16 +261,20 @@ array, and the obvious approach is wrong:
   kebab-case slugs: `shift-tab`, `install-github-app`, `double-esc`, …). Some
   are **assembled at runtime** from a keybinding/command spliced between
   fragments, so they extract as leading-space pieces.
+- And the encoding is **mixed** — most tips are ASCII, but a few
+  (plugin-disuse, team-onboarding) are **UTF-16LE**, so an ASCII-only `strings`
+  silently dropped their tails.
 
-`extract.sh --tips` now slices that region and filters out slugs, config keys,
-URLs, and error strings. As a regression guard it **asserts the visible
-shift+tab tip is present** (`to cycle between default mode`) and fails loudly if
-a future version moves the region.
+`extract.sh --tips` slices that region, decodes **both ASCII and UTF-16LE merged
+by byte offset**, and filters out slugs, config keys, URLs, and error strings.
+As regression guards it **asserts two tips are present** — the visible shift+tab
+tip (ASCII) and a plugin-disuse tip (UTF-16) — and fails loudly if a future
+version moves the region or breaks the 16-bit decode.
 
 👉 The cleaned, human-reconstructed list (including the assembled tips) lives in
 **[TIPS.md](./TIPS.md)**. The archived `versions/<ver>/tips.raw.txt` keeps the
-raw filtered extraction (~70 lines, fragments and all) as a faithful record —
-don't read it as a curated list.
+raw order-preserving extraction (~82 lines, ASCII + UTF-16, fragments and all)
+as a faithful record — don't read it as a curated list.
 
 ---
 

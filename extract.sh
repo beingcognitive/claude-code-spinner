@@ -75,25 +75,40 @@ past() {
 }
 
 # Startup tips. IMPORTANT: tips are NOT stored with a "Tip: " prefix — that's
-# added by the renderer. A naive `grep '^Tip: '` misses the real tips entirely
-# (it only catches a few incidental, unrelated "Tip:" strings). The genuine tips
-# live in a contiguous text array; we slice the region from the first tip to the
-# config-key block, then drop the obvious non-tips (telemetry slugs, config
-# keys, URLs, error messages). Some tips are assembled at runtime from a
-# keybinding + fragment, so leading-space fragments are kept (faithful but ugly)
-# — see TIPS.md for the curated, reconstructed list.
+# added by the renderer. A naive `grep '^Tip: '` misses the real tips entirely.
+# The genuine tips live in a contiguous text region (from the first tip to the
+# `tipsHistory` config key). Three things make a clean extraction hard, and this
+# function handles all three:
+#   1. No "Tip: " prefix          → slice the region by content anchors.
+#   2. Runtime-assembled tips      → keep FILE ORDER (sorting scrambles the
+#      ("Hit " + key + " to cycle…")  fragments and the list looks truncated).
+#   3. MIXED ENCODINGS             → most tips are single-byte ASCII, but a few
+#      (plugin-disuse, team-onboarding) are UTF-16LE, so an ASCII-only `strings`
+#      drops their tails. We decode BOTH and merge by byte offset.
+# Output is still fragmentary by nature (assembled tips span several lines) —
+# see TIPS.md for the fully reconstructed, complete sentences.
 #
 # QA anchor: the "shift+tab … cycle between default mode" tip MUST appear here.
-# If a future version breaks the region anchors, that assertion fails loudly.
+# Two anchors guard the two extraction paths:
+#   ASCII  — the visible shift+tab tip
+#   UTF-16 — a plugin-disuse tip (proves the 16-bit decode still works)
 TIPS_QA_ANCHOR='to cycle between default mode'
+TIPS_QA_ANCHOR_UTF16='startup and context cost'
 tips() {
-  # IMPORTANT: keep FILE ORDER (no sort). Tips are assembled from consecutive
-  # fragments ("Hit " + keybinding + " to cycle…"); sorting scrambles them so
-  # the list looks broken from line 1. Order-preserving output keeps each tip's
-  # fragments adjacent. The raw output is still fragmentary by nature — see
-  # TIPS.md for the fully reconstructed, complete sentences.
-  strings -n 6 "$BIN" \
-    | awk '/New to Claude Code\? Run/{g=1} g{print} /^tipsHistory$/{if(g)exit}' \
+  # Dual-encoding, offset-ordered extraction of the tips region.
+  perl -0777 -e '
+    open(my $fh, "<:raw", $ARGV[0]) or die; local $/; my $data = <$fh>;
+    my $start = index($data, "New to Claude Code? Run", 190_000_000);
+    exit 0 if $start < 0;
+    my $end = index($data, "tipsHistory", $start); $end = length($data) if $end < 0;
+    my $r = substr($data, $start, $end - $start);
+    my @hits;
+    while ($r =~ /([\x20-\x7e]{6,})/g)            { push @hits, [pos($r)-length($1), $1]; }       # ASCII
+    while ($r =~ /((?:[\x20-\x7e]\x00){6,})/g)    { my $s=$1; (my $t=$s)=~s/\x00//g;
+                                                    push @hits, [pos($r)-length($s), $t]; }        # UTF-16LE
+    @hits = sort { $a->[0] <=> $b->[0] } @hits;
+    print "$_->[1]\n" for @hits;
+  ' "$BIN" \
     | grep -aE '[a-z].* [a-z]' \
     | grep -avE '^[a-z0-9]+([-_/:][a-z0-9]+)*$' \
     | grep -avE '^https?://|^/[a-z]|^suggestion$|^the Claude mobile app$' \
@@ -101,14 +116,14 @@ tips() {
     | grep -avE 'Cannot destructure|null or undefined|^Failed to |auto-update'
 }
 
-# Verify the QA anchor is present; print a warning to stderr if not.
+# Verify both QA anchors are present; warn to stderr (and fail) if not.
 tips_check() {
-  if tips | grep -qF "$TIPS_QA_ANCHOR"; then
-    echo "# tips QA: OK (shift+tab tip present)" >&2
-  else
-    echo "# tips QA: FAILED — '$TIPS_QA_ANCHOR' not found; region anchors may have moved" >&2
-    return 1
-  fi
+  local out; out="$(tips)"
+  local ok=1
+  grep -qF "$TIPS_QA_ANCHOR"       <<<"$out" || { echo "# tips QA: FAILED — ASCII anchor '$TIPS_QA_ANCHOR' missing (region anchors may have moved)" >&2; ok=0; }
+  grep -qF "$TIPS_QA_ANCHOR_UTF16" <<<"$out" || { echo "# tips QA: FAILED — UTF-16 anchor '$TIPS_QA_ANCHOR_UTF16' missing (16-bit decode may have broken)" >&2; ok=0; }
+  [ "$ok" = 1 ] && echo "# tips QA: OK (ASCII + UTF-16 anchors present)" >&2
+  [ "$ok" = 1 ]
 }
 
 emit() {  # $1 = function name, $2 = header (only used when MODE=all)

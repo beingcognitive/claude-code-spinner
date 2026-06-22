@@ -11,12 +11,13 @@ verb (or a startup tip), the diff shows up here.
 
 | Version  | Spinner (present) | Completion (past) | Tips (raw) |
 |----------|:-----------------:|:-----------------:|:----------:|
-| 2.1.185  | 187               | 8                 | 70         |
-| 2.1.183  | 187               | 8                 | 70         |
-| 2.1.181  | 187               | 8                 | 70         |
+| 2.1.185  | 187               | 8                 | 82         |
+| 2.1.183  | 187               | 8                 | 82         |
+| 2.1.181  | 187               | 8                 | 82         |
 
-Tips count is the raw filtered extraction (`tips.raw.txt`), which includes
-runtime-assembled fragments; see [TIPS.md](./TIPS.md) for the curated list.
+Tips count is the raw, order-preserving extraction (`tips.raw.txt`, ASCII +
+UTF-16LE), which still includes runtime-assembled fragments; see
+[TIPS.md](./TIPS.md) for the complete, reconstructed sentences.
 
 ## Changes
 

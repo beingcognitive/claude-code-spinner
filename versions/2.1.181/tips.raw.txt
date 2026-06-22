@@ -52,8 +52,13 @@ Control this session from
 Get pinged on your phone when long tasks finish 
  enable push notifications in 
 Use /voice to enable push-to-talk dictation
+Try the new fullscreen renderer 
+ flicker-free output, mouse support, auto-copy on select 
+ /tui fullscreen
 Build your AI product with Claude API. Run 
  to get started
+Run Claude Code locally or remotely using the Claude desktop app 
+Run tasks in the cloud while you keep coding locally 
 Your default model setting is Opus Plan Mode. Press 
  twice to activate Plan Mode and plan with Claude Opus.
 Working with HTML/CSS? Install the frontend-design plugin:
@@ -61,10 +66,17 @@ Working with HTML/CSS? Install the frontend-design plugin:
  and Claude sends a team. Each one digs deep so nothing gets missed.
  runs any prompt on a recurring schedule. Great for monitoring deploys, babysitting PRs, or polling status.
 You haven't used the 
+ plugin in a while. It still adds startup and context cost 
+ review it with 
 You have 
+ plugins you haven't used in a while. They still add startup and context cost 
+ review them with 
 Set an objective with 
+ Claude keeps working until it's met
 Share Claude Code and earn 
  in usage credits 
 You have free guest passes to share 
 Use /feedback to help us improve!
+ to turn your Claude usage into an onboarding guide 
+ share it with your team in one link
 plugin suggestion: 

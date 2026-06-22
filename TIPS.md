@@ -134,6 +134,8 @@ This list was cross-checked two independent ways, plus an encoding check:
 auto-accept edit mode, and plan mode` tip (#11) is present and complete.
 `extract.sh` asserts this on every run (`tips_check`).
 
-> The archived `versions/<ver>/tips.raw.txt` is the raw, order-preserving ASCII
-> extraction — still fragmentary (and missing the UTF-16 tails) by nature. This
-> file is the complete, verified version.
+> The archived `versions/<ver>/tips.raw.txt` is the raw, order-preserving
+> extraction (ASCII **and** UTF-16LE, merged by byte offset) — so the UTF-16
+> tails are now captured too. It's still fragmentary by nature (assembled tips
+> span several lines); this file stitches those fragments into complete
+> sentences.
