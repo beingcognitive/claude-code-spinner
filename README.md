@@ -73,6 +73,12 @@ The single best part of this list is how it's built — a deliberate blend of
 genuine vocabulary, culinary terms, magic, dance, physics, and total gibberish.
 Here's the same 187 words grouped so the personality comes through.
 
+> **Fun facts**
+> - 🍳 **Cooking is the single biggest theme** (~30 words) — Claude is, apparently, mostly a kitchen.
+> - Longest verb: **`Whatchamacalliting`** (18 letters). Shortest: **`Doing`** (5).
+> - Only 2 carry an accent — **`Flambéing`**, **`Sautéing`** — and both are (of course) cooking words.
+> - 6 are hyphenated/apostrophe'd tongue-twisters: `Beboppin'` · `Dilly-dallying` · `Fiddle-faddling` · `Razzle-dazzling` · `Sock-hopping` · `Topsy-turvying`.
+
 ### 🍳 Cooking & baking — "something's simmering"
 The largest theme. Claude as a kitchen.
 
