@@ -14,7 +14,15 @@ in-jokes.
 As of Claude Code **v2.1.185** there are **187** of them, stored as a contiguous,
 alphabetically-sorted array of plain strings inside the compiled CLI binary.
 
-> Heads-up: this list changes between versions. Re-run [`extract.sh`](./extract.sh)
+This repo also tracks two companion lists baked into the same binary:
+- **8 past-tense completion verbs** — the `Crunched for 51s` message you see *after*
+  a task finishes ([bonus section](#bonus-the-completion-verbs-8-and-tips)).
+- the **startup tips** (`Tip: …`).
+
+And it keeps a **[per-version archive](#version-archive)** so you can watch the
+vocabulary evolve across releases.
+
+> Heads-up: these lists change between versions. Re-run [`extract.sh`](./extract.sh)
 > against your own install to get the current set.
 
 ---
@@ -28,6 +36,12 @@ install, `strings` it, and slice out the block that runs from `Accomplishing` to
 ```bash
 # Auto-detect the newest installed version and print a numbered list
 ./extract.sh
+
+# pick a list:  --present (default) | --past | --tips | --all
+./extract.sh --all
+
+# one word per line, no numbers (for diffing / scripting)
+./extract.sh --past --plain
 
 # …or point it at a specific binary
 ./extract.sh ~/.local/share/claude/versions/2.1.185
@@ -195,6 +209,81 @@ windily) · `Boondoggling` (busywork) · `Booping` · `Catapulting` ·
 ```
 
 </details>
+
+---
+
+## Bonus: the completion verbs (8) and tips
+
+### Past-tense completion verbs
+
+When a task *finishes*, Claude Code swaps the live spinner for a past-tense
+summary like `Crunched for 51s`. That word comes from a much smaller,
+hand-picked set — just **8** verbs, stored the same way (a contiguous
+`Baked … Worked` block):
+
+```
+Baked · Brewed · Churned · Cogitated · Cooked · Crunched · Sautéed · Worked
+```
+
+A nice bit of design: **187 playful verbs while it's thinking, but only 8 calm
+ones when it's done** — and 6 of the 8 are culinary (Baked/Brewed/Churned/
+Cooked/Sautéed), so the finished message always reads like something was just
+served. (`Sautéed` truncates to `Saut` in `strings`, same multi-byte quirk as
+`Sautéing`/`Flambéing`.)
+
+```bash
+./extract.sh --past
+```
+
+### Startup tips
+
+The `Tip: …` hints shown when Claude Code launches are also embedded as plain
+strings:
+
+```bash
+./extract.sh --tips
+```
+
+Caveat: a few tips are assembled at runtime from multiple fragments (or contain
+variables / newlines), so they come out partial — e.g. `Tip: The shorthand "`
+or `Tip: You have access to`. The fully-static ones extract cleanly:
+
+```
+Tip: You can launch Claude Code with just `claude`
+Tip: You can configure model switch behavior in /config
+Tip: You can enable auto-connect to IDE in /config or with the --ide flag
+Tip: run /code-review ultra (no number) to review your current branch instead.
+```
+
+---
+
+## Version archive
+
+The whole point of this repo over time: track how the vocabulary changes across
+Claude Code releases.
+
+```
+versions/
+  2.1.181/   spinner.txt · past.txt · tips.txt
+  2.1.183/   spinner.txt · past.txt · tips.txt
+  2.1.185/   spinner.txt · past.txt · tips.txt
+```
+
+[`CHANGELOG.md`](./CHANGELOG.md) summarizes the diffs. So far `2.1.181`,
+`2.1.183`, and `2.1.185` are **byte-for-byte identical** (same `md5`) — a clean
+baseline. The archive starts paying off the first release that moves a word.
+
+### Adding a new version
+
+```bash
+# after upgrading Claude Code:
+./snapshot.sh                               # snapshots every installed version
+diff versions/2.1.185/spinner.txt \
+     versions/<new>/spinner.txt             # see what moved
+```
+
+Then add a row + a diff note to `CHANGELOG.md` and commit the new
+`versions/<new>/` folder. PRs with fresh versions are welcome.
 
 ---
 

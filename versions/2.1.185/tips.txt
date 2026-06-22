@@ -1,0 +1,11 @@
+Tip: For more frequent updates, use the claude-code@latest cask:
+Tip: run /code-review ultra (no number) to review your current branch instead.
+Tip: run /code-review ultra <PR number> to fetch and review a specific GitHub PR instead.
+Tip: the package name is from package.json, which can differ from the folder name.
+Tip: The shorthand "
+Tip: The shorthand "${n.repo}" assumes github.com. For internal GitHub Enterprise, use the full URL:
+Tip: to disable all smart filtering and make ripgrep behave a bit more like
+Tip: You can configure model switch behavior in /config
+Tip: You can enable auto-connect to IDE in /config or with the --ide flag
+Tip: You can launch Claude Code with just `claude`
+Tip: You have access to 

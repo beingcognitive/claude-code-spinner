@@ -1,24 +1,48 @@
 #!/usr/bin/env bash
 #
-# extract.sh — Pull the full list of Claude Code "spinner" verbs out of the
-# installed CLI binary and print them as a clean, numbered, alphabetical list.
+# extract.sh — Pull Claude Code's UI word lists out of the installed CLI binary.
 #
-# These are the whimsical present-tense verbs (Thinking…, Pondering…, Brewing…)
-# that Claude Code shows at the bottom of the screen while it works. They are
-# baked into the compiled binary as a contiguous, alphabetically-sorted array of
-# plain strings — from "Accomplishing" to "Zigzagging" — so we slice out exactly
-# that block and tidy it up.
+# Claude Code embeds several human-readable word lists as plain strings inside
+# its compiled (Mach-O / native) binary:
+#
+#   • spinner verbs — the present-tense words shown while it works
+#                     (Thinking…, Pondering…, Brewing…). 187 of them.
+#   • past-tense    — the completion words ("Crunched for 51s"). A curated 8.
+#   • tips          — the "Tip: …" hints shown at startup.
+#
+# Each list is stored as a contiguous, alphabetically-sorted run of strings, so
+# we slice out the block between two known boundary words and tidy it up.
 #
 # Usage:
-#   ./extract.sh                       # auto-detect newest installed version
-#   ./extract.sh /path/to/claude/bin   # point at a specific binary
+#   ./extract.sh [--present|--past|--tips|--all] [--plain] [BINARY]
 #
-set -euo pipefail
+#   --present   spinner verbs (default)
+#   --past      past-tense completion verbs
+#   --tips      startup tips
+#   --all       print all three sections
+#   --plain     one word per line, no numbering (for archiving/diffing)
+#   BINARY      path to a claude binary (default: newest installed version)
+#
+# NOTE: no `pipefail` — the awk extractors exit early on purpose, which sends
+# SIGPIPE to `strings`; we only care about the final `sort` exit status.
+set -eu
 
-# 1) Locate the Claude Code binary -------------------------------------------
-BIN="${1:-}"
+MODE="present"
+PLAIN=0
+BIN=""
+for arg in "$@"; do
+  case "$arg" in
+    --present) MODE="present" ;;
+    --past)    MODE="past" ;;
+    --tips)    MODE="tips" ;;
+    --all)     MODE="all" ;;
+    --plain)   PLAIN=1 ;;
+    -*)        echo "Unknown option: $arg" >&2; exit 2 ;;
+    *)         BIN="$arg" ;;
+  esac
+done
+
 if [[ -z "${BIN}" ]]; then
-  # Newest version under the standard install location
   BIN="$(ls -1d "$HOME"/.local/share/claude/versions/* 2>/dev/null | sort -V | tail -1 || true)"
 fi
 if [[ -z "${BIN}" || ! -f "${BIN}" ]]; then
@@ -26,16 +50,42 @@ if [[ -z "${BIN}" || ! -f "${BIN}" ]]; then
   echo "Pass it explicitly:  ./extract.sh /path/to/claude/versions/<ver>" >&2
   exit 1
 fi
-echo "# Source binary: ${BIN}" >&2
 
-# 2) Slice out the contiguous spinner block, clean, number -------------------
-#    - `strings` dumps every embedded string in file order.
-#    - `awk` keeps the first contiguous run from Accomplishing … Zigzagging.
-#    - Accented words get truncated by `strings` (multi-byte é), so restore the
-#      two known ones: Flamb -> Flambéing, Saut -> Sautéing.
-#    - `sort -u` de-duplicates (the binary stores two copies) and orders them.
-strings -n 4 "${BIN}" \
-  | awk '/^Accomplishing$/ {grab=1} grab {print} /^Zigzagging$/ {if (grab) exit}' \
-  | sed 's/^Flamb$/Flambéing/; s/^Saut$/Sautéing/' \
-  | sort -u \
-  | nl -w3 -s'. '
+# --- list extractors ---------------------------------------------------------
+# Spinner verbs: contiguous run Accomplishing … Zigzagging.
+# `strings` truncates multi-byte é, so restore Flambéing / Sautéing.
+present() {
+  strings -n 4 "$BIN" \
+    | awk '/^Accomplishing$/{g=1} g{print} /^Zigzagging$/{if(g)exit}' \
+    | sed 's/^Flamb$/Flambéing/; s/^Saut$/Sautéing/' \
+    | sort -u
+}
+
+# Past-tense completion verbs: contiguous run Baked … Worked. Restore Sautéed.
+past() {
+  strings -n 4 "$BIN" \
+    | awk '/^Baked$/{g=1} g{print} /^Worked$/{if(g)exit}' \
+    | sed 's/^Saut$/Sautéed/' \
+    | sort -u
+}
+
+# Startup tips: every embedded string that begins with "Tip: ".
+tips() {
+  strings -n 8 "$BIN" | grep -aE '^Tip: ' | sort -u
+}
+
+emit() {  # $1 = function name, $2 = header (only used when MODE=all)
+  if [[ -n "${2:-}" ]]; then echo "## $2"; fi
+  if [[ "$PLAIN" -eq 1 ]]; then "$1"; else "$1" | nl -w3 -s'. '; fi
+  if [[ -n "${2:-}" ]]; then echo; fi
+}
+
+echo "# Source binary: ${BIN}" >&2
+case "$MODE" in
+  present) emit present ;;
+  past)    emit past ;;
+  tips)    emit tips ;;
+  all)     emit present "Spinner verbs (present tense)"
+           emit past    "Completion verbs (past tense)"
+           emit tips    "Startup tips" ;;
+esac
