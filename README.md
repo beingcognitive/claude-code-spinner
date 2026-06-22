@@ -244,16 +244,37 @@ strings:
 ./extract.sh --tips
 ```
 
-Caveat: a few tips are assembled at runtime from multiple fragments (or contain
-variables / newlines), so they come out partial — e.g. `Tip: The shorthand "`
-or `Tip: You have access to`. The fully-static ones extract cleanly:
+**Important caveat:** unlike the spinner verbs, tips are *not* a clean
+contiguous array. `strings | grep '^Tip: '` is best-effort and the raw output is
+messy for three reasons, which is why some lines look truncated:
+
+1. **Runtime templates** — values are spliced in at display time, so `strings`
+   only catches the first fragment. Reconstructed from the surrounding bytes:
+   - `Tip: You have access to {N} with {N}x more context`
+   - `Tip: The shorthand "{repo}" assumes github.com. For internal GitHub`
+     `Enterprise, use the full URL: git@your-github-host.com:…`
+   - `Tip: For more frequent updates, use the claude-code@latest cask:`
+     `brew uninstall --cask … && brew install --cask claude-code@latest`
+2. **Embedded newlines** — a tip split across lines breaks at the `\n`.
+3. **False positives** — `Tip: to disable all smart filtering and make ripgrep
+   behave a bit more like…` is **not a Claude Code tip at all** — it's the
+   bundled **ripgrep** man page (the bytes right after it are `.SH REGEX SYNTAX`
+   troff markup). It only matches because ripgrep ships inside the binary.
+
+The fully-static, genuine Claude Code tips extract cleanly:
 
 ```
 Tip: You can launch Claude Code with just `claude`
 Tip: You can configure model switch behavior in /config
 Tip: You can enable auto-connect to IDE in /config or with the --ide flag
 Tip: run /code-review ultra (no number) to review your current branch instead.
+Tip: run /code-review ultra <PR number> to fetch and review a specific GitHub PR instead.
+Tip: the package name is from package.json, which can differ from the folder name.
 ```
+
+> The archived `versions/<ver>/tips.txt` keeps the **raw** `grep '^Tip: '` output
+> (warts and all) as a faithful record of what's in the binary — don't read it as
+> a curated list.
 
 ---
 
