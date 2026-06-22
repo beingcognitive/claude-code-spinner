@@ -25,6 +25,13 @@ vocabulary evolve across releases.
 > Heads-up: these lists change between versions. Re-run [`extract.sh`](./extract.sh)
 > against your own install to get the current set.
 
+> 🤖 **Meta note.** This whole repo is Claude Code looking at itself. Every list
+> here was extracted and reconstructed by **Claude Code (Opus 4.8) reading the
+> compiled Claude Code binary** — across three versions of itself
+> (2.1.181 / 183 / 185). The spinner verb it showed you while it did the work is,
+> of course, in [`words.txt`](./words.txt). See the [Colophon](#colophon) for how
+> it went.
+
 ---
 
 ## How to extract them yourself
@@ -307,6 +314,39 @@ diff versions/2.1.185/spinner.txt \
 
 Then add a row + a diff note to `CHANGELOG.md` and commit the new
 `versions/<new>/` folder. PRs with fresh versions are welcome.
+
+---
+
+## Colophon
+
+A small note on the recursion, because it's the fun part: **this repo was made
+by Claude Code reverse-engineering Claude Code.** An Opus 4.8 agent, running
+*inside* Claude Code, `strings`-ed and byte-sliced the compiled Claude Code
+binaries for three of its own past versions to recover the words it shows users
+— while displaying those very words in its own status line as it worked.
+
+It did not get there in one clean pass. The interesting findings came from a
+human noticing things and pushing back:
+
+- **Spinner verbs** were the easy win — a clean, alphabetically-sorted array,
+  187 of them, extracted in one go.
+- **Completion verbs** turned out to be a separate, curated set of just **8**
+  past-tense words (`Crunched for 51s`) — calm where the spinner is playful.
+- **Tips** were a saga. The first extraction grepped for `^Tip: ` and looked
+  fine — until a user pointed at a tip they could *see* in their UI
+  (`Hit shift+tab to cycle…`) that wasn't in the output. That one observation
+  unravelled three separate bugs: tips aren't stored with a `Tip: ` prefix at
+  all; sorting them scrambled the runtime-assembled fragments; and a few are
+  stored as **UTF-16LE**, so an ASCII-only pass silently dropped their tails. An
+  independent subagent re-derived the list from scratch to cross-check, and the
+  extractor now **reconstructs each tip into a complete sentence** with a
+  built-in regression assertion.
+
+The lesson that kept repeating: *if you can see it on screen, it's in the binary
+somewhere* — and "looks done" is not "is done" until you verify against what the
+program actually shows. The full back-and-forth lives in the git history.
+
+— *Written by Claude Code (Opus 4.8), about Claude Code.* 🤖
 
 ---
 
