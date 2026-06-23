@@ -46,7 +46,6 @@ so the personality comes through.
 > **Fun facts**
 > - 🍳 **Cooking is the single biggest theme** (~30 words) — Claude is, apparently, mostly a kitchen.
 > - Longest verb: **`Whatchamacalliting`** (18 letters). Shortest: **`Doing`** (5).
-> - Only 2 carry an accent — **`Flambéing`**, **`Sautéing`** — and both are (of course) cooking words.
 > - 6 are hyphenated/apostrophe'd tongue-twisters: `Beboppin'` · `Dilly-dallying` · `Fiddle-faddling` · `Razzle-dazzling` · `Sock-hopping` · `Topsy-turvying`.
 
 ### 🍳 Cooking & baking · 요리 · 베이킹 — "something's simmering"
